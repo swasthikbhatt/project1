@@ -27,11 +27,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<developer.name>swasthik bhat</developer.name>
-		<developer.father.name>suresh bhat</developer.father.name>
-		<developer.mother.name>shantha bhat</developer.mother.name>
-		<developer.sister.name>shantha bhat</developer.sister.name>
 		<vaadin.version>25.3.1</vaadin.version>
+		<developer.mobile>iphone 16 pro</developer.mobile>
 	</properties>
 	<dependencies>
 		<dependency>

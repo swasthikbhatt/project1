@@ -6,19 +6,50 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Map;
+
 @SpringBootApplication
 public class Project1Application
 {
 	public static void main(String[] args)
 	{
-		ConfigurableApplicationContext context = SpringApplication.run(Project1Application.class, args);
+		SpringApplication app = new SpringApplication(Project1Application.class);
+		app.setDefaultProperties(Map.of(
+				"my.program.args[0]", args.length > 0 ? args[0] : "Not present",
+				"my.program.args[1]", args.length > 1 ? args[1] : "Not present"
+		));
+		ConfigurableApplicationContext context = app.run(args);
 
-		// Display properties defined in the pom.xml file using System.getProperty() method
-		new PropertiesTagInPomFileDemo().displayProperties();
+		DisplayProperties displayProperties = new DisplayProperties();
+		displayProperties.displayVmOptionsOrJvmOptionsOrSystemProperties(); // Display properties defined in the VM/JVM Options using System.getProperty() method.
+		displayProperties.displayEnvironmentVariables(); // Display environment variables defined in the system using System.getenv() method.
+		System.out.println(args.length);
+		if (args.length > 0) System.out.println(args[0] + "\n" + args[1] + "\n"); // Display command line arguments/program arguments passed to the application.
 
 		// Display properties defined in the pom.xml file using Spring's @Value annotation. context.getBean(DeveloperInfo.class)Retrieves the Spring-managed object with @Value fields injected.
-		DeveloperInfo developerInfo = context.getBean(DeveloperInfo.class);
+		PropertiesDisplayUsingSpringValueAnnotation developerInfo = context.getBean(PropertiesDisplayUsingSpringValueAnnotation.class);
 		developerInfo.printDetails();
+
+		// Display properties defined in the pom.xml file using Spring's Environment class. context.getBean(PropertiesDisplayUsingEnvironmentClass.class)Retrieves the Spring-managed object with Environment class injected.
+		PropertiesDisplayUsingEnvironmentClass propertiesDisplayUsingEnvironmentClass = context.getBean(PropertiesDisplayUsingEnvironmentClass.class);
+		propertiesDisplayUsingEnvironmentClass.showDetails();
+	}
+
+	/**
+	 * Suppose you have a piece in your class and you want the code to execute automatically whenever you start your Spring Boot application.
+	 * How can you do that? That's where CommandLineRunner comes in.
+	 * What does CommandLineRunner do? Think of it as telling Spring Boot: "After you start my application, please execute this method."
+	 */
+	@Bean
+	CommandLineRunner firstRunner()
+	{
+		return args ->
+		{
+			System.out.println("First CommandLineRunner is executing...");
+			new DisplayProperties().displayVmOptionsOrJvmOptionsOrSystemProperties();
+			new DisplayProperties().displayEnvironmentVariables();
+			System.out.println("First CommandLineRunner executed.");
+		};
 	}
 
 	/**
@@ -28,28 +59,12 @@ public class Project1Application
 	 * Spring injects DeveloperInfo into the firstRunner method.
 	 */
 	@Bean
-    CommandLineRunner firstRunner(DeveloperInfo developerInfo)
+    CommandLineRunner secondRunner(PropertiesDisplayUsingSpringValueAnnotation propertiesDisplayUsingSpringValueAnnotation)
 	{
 		return args -> {
-			System.out.println("First CommandLineRunner is executing after the application context has started.");
-			developerInfo.printDetails();
-			System.out.println("First CommandLineRunner executed after the application context has started.");
-		};
-	}
-
-	/**
-	 * Suppose you have a piece in your class and you want the code to execute automatically whenever you start your Spring Boot application.
-	 * How can you do that? That's where CommandLineRunner comes in.
-	 * What does CommandLineRunner do? Think of it as telling Spring Boot: "After you start my application, please execute this method."
-	 */
-	@Bean
-	CommandLineRunner secondRunner()
-	{
-		return args ->
-		{
-			System.out.println("Second CommandLineRunner is executing after displaying properties.");
-			new PropertiesTagInPomFileDemo().displayProperties();
-			System.out.println("Second CommandLineRunner executed after displaying properties.");
+			System.out.println("Second CommandLineRunner is executing after the application context has started...");
+			propertiesDisplayUsingSpringValueAnnotation.printDetails();
+			System.out.println("Second CommandLineRunner executed after the application context has started.");
 		};
 	}
 }
