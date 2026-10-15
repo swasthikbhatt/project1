@@ -1,2 +1,2 @@
-# 𝐩𝐫𝐨𝐣𝐞𝐜𝐭𝟏
-Spring Boot project1
+# project1
+𝗦𝗽𝗿𝗶𝗻𝗴 𝗕𝗼𝗼𝘁 𝗽𝗿𝗼𝗷𝗲𝗰𝘁𝟭
