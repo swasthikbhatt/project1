@@ -45,3 +45,23 @@ This command compiles your code, runs tests (if enabled), and creates the execut
 
 ## Run the packaged application/deployable artifact from the command line after packaging
 <b>DEVELOPER_AGE="23" DEVELOPER_GENDER="male" java -Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat" -jar target/project1-0.0.1-SNAPSHOT.jar --developer.mother.tongue=tulu --developer.dream.country=USA</b>
+
+## Check Java version that you made default in your system
+(base) swasthikbhat@Swasthiks-MacBook-Air ~ % java -version  
+openjdk version "25.0.4.1" 2026-08-18  
+OpenJDK Runtime Environment Homebrew (build 25.0.4.1)  
+OpenJDK 64-Bit Server VM Homebrew (build 25.0.4.1, mixed mode, sharing)  
+
+## Check all the Java versions installed in your system
+(base) swasthikbhat@Swasthiks-MacBook-Air ~ % /usr/libexec/java_home -V                        
+Matching Java Virtual Machines (2):  
+25.0.4.1 (arm64) "Homebrew" - "OpenJDK 25.0.4.1" /opt/homebrew/Cellar/openjdk@25/25.0.4.1/libexec/openjdk.jdk/Contents/Home  
+22.0.2 (arm64) "Oracle Corporation" - "Java SE 22.0.2" /Library/Java/JavaVirtualMachines/jdk-22.jdk/Contents/Home  
+/opt/homebrew/Cellar/openjdk@25/25.0.4.1/libexec/openjdk.jdk/Contents/Home
+
+## Check Maven version installed in your system
+Apache Maven 3.10.0 (c43a36b8d67be7e0805a411bc0898af1a51f5472)  
+Maven home: /opt/homebrew/Cellar/maven/3.10.0/libexec  
+Java version: 25.0.4.1, vendor: Homebrew, runtime: /opt/homebrew/Cellar/openjdk@25/25.0.4.1/libexec/openjdk.jdk/Contents/Home  
+Default locale: en_US, platform encoding: UTF-8, time zone: Asia/Kolkata  
+OS name: "Mac OS X", version: "27.0.1", arch: "aarch64", family: "Mac"
