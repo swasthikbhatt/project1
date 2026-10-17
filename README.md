@@ -24,6 +24,10 @@ Environment variable: DEVELOPER_NAME=swasthik bhat
 Notice that environment variable names conventionally use uppercase letters and underscores.  
 Add Environment variables in the run configuration: <b>DEVELOPER_AGE=23;DEVELOPER_GENDER=male</b>
 
+### Open a Terminal to run the frontend application
+Open the frontend folder and run: <b>npm run dev</b>  
+Then open <b>http://localhost:5173</b>  
+
 ## How to run the application directly from the command line
 Whatever we specify in the VM/JVM/Java options in the run configuration, we can also specify them in the command line while running the application using -Dspring-boot.run.jvmArguments option.  
 Option 1: Everything in one command (recommended)  
@@ -32,6 +36,10 @@ Option 2: Set environment variables separately
 <b>export DEVELOPER_AGE="23"</b>  
 <b>export DEVELOPER_GENDER="male"</b>  
 <b>mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Ddeveloper.name='swasthik bhat'" -Dspring-boot.run.arguments="--developer.mother.tongue=tulu --developer.dream.country=USA"</b>  
+
+### Open another Terminal to run the frontend application
+Open the frontend folder and run: <b>npm run dev</b>  
+Then open <b>http://localhost:5173</b>
 
 ## How to do maven clean  
 <b>mvn clean</b>  
@@ -42,6 +50,9 @@ This command compiles your code, runs tests (if enabled), and creates the execut
 - VM options (-D...): You can pass Maven properties during the build, but they won't automatically become JVM properties when the application runs.
 - Environment variables (DEVELOPER_AGE, etc.): Not required unless your build process or tests need them.
 - Program arguments (--developer.dream.country=USA, etc.): Not required because packaging doesn't normally start your application with those runtime arguments.  
+
+In Java, you use:  <span style="background-color: yellow;"><b>mvn clean package</b></span>  
+In React, you use: <span style="background-color: yellow;"><b>npm run build</b></span>  
 
 ## Run the packaged application/deployable artifact from the command line after packaging
 <b>DEVELOPER_AGE="23" DEVELOPER_GENDER="male" java -Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat" -jar target/project1-0.0.1-SNAPSHOT.jar --developer.mother.tongue=tulu --developer.dream.country=USA</b>
