@@ -29,7 +29,6 @@ public class PropertiesDisplayUsingSpringValueAnnotation
     // Properties defined in the application.properties file
     @Value("${spring.application.name:Not provided}") private String springApplicationName;
     @Value("${server.port:8080}") private int serverPort;
-    @Value("${vaadin.launch-browser:false}") private boolean vaadinLaunchBrowser;
 
     public void printDetails()
     {
@@ -46,7 +45,6 @@ public class PropertiesDisplayUsingSpringValueAnnotation
         System.out.println("Program Argument 2: " + myProgramArg2);
         System.out.println("Spring Application Name: " + springApplicationName);
         System.out.println("Server Port: " + serverPort);
-        System.out.println("Vaadin Launch Browser: " + vaadinLaunchBrowser);
         System.out.println("=======================================\n");
     }
 }

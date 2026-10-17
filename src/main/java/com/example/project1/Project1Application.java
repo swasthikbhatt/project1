@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
-
 import java.util.Map;
 
 @SpringBootApplication
@@ -21,9 +20,8 @@ public class Project1Application
 		));
 		ConfigurableApplicationContext context = app.run(args);
 
-		DisplayProperties displayProperties = new DisplayProperties();
-		displayProperties.displayVmOptionsOrJvmOptionsOrSystemProperties(); // Display properties defined in the VM/JVM Options using System.getProperty() method.
-		displayProperties.displayEnvironmentVariables(); // Display environment variables defined in the system using System.getenv() method.
+		DisplayProperties.displayVmOptionsOrJvmOptionsOrSystemProperties(); // Display properties defined in the VM/JVM Options using System.getProperty() method.
+		DisplayProperties.displayEnvironmentVariables(); // Display environment variables defined in the system using System.getenv() method.
 		System.out.println(args.length);
 		if (args.length > 0) System.out.println(args[0] + "\n" + args[1] + "\n"); // Display command line arguments/program arguments passed to the application.
 
@@ -37,7 +35,7 @@ public class Project1Application
 	}
 
 	/**
-	 * Suppose you have a piece in your class and you want the code to execute automatically whenever you start your Spring Boot application.
+	 * Suppose you have a piece in your class, and you want the code to execute automatically whenever you start your Spring Boot application.
 	 * How can you do that? That's where CommandLineRunner comes in.
 	 * What does CommandLineRunner do? Think of it as telling Spring Boot: "After you start my application, please execute this method."
 	 * Spring Boot does not guarantee the execution order of your CommandLineRunner beans unless you specify it using the @Order annotation. The lower the order value, the earlier it will be executed.
@@ -49,8 +47,8 @@ public class Project1Application
 		return args ->
 		{
 			System.out.println("First CommandLineRunner is executing...");
-			new DisplayProperties().displayVmOptionsOrJvmOptionsOrSystemProperties();
-			new DisplayProperties().displayEnvironmentVariables();
+			DisplayProperties.displayVmOptionsOrJvmOptionsOrSystemProperties();
+			DisplayProperties.displayEnvironmentVariables();
 			System.out.println("First CommandLineRunner executed.");
 		};
 	}

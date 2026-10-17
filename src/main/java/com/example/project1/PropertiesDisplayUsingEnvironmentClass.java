@@ -41,7 +41,6 @@ public class PropertiesDisplayUsingEnvironmentClass
         // Other application properties
         String applicationName = environment.getProperty("spring.application.name", "Not provided");
         String serverPort = environment.getProperty("server.port", "8080");
-        String vaadinLaunchBrowser = environment.getProperty("vaadin.launch-browser", "false");
 
         System.out.println("\n========== DEVELOPER DETAILS USING ENVIRONMENT CLASS ==========");
         System.out.println("Developer Name: " + developerName);
@@ -56,7 +55,6 @@ public class PropertiesDisplayUsingEnvironmentClass
         System.out.println("Program Argument 2: " + programArg2);
         System.out.println("Application Name: " + applicationName);
         System.out.println("Server Port: " + serverPort);
-        System.out.println("Vaadin Launch Browser: " + vaadinLaunchBrowser);
         System.out.println("=======================================\n");
     }
 }
