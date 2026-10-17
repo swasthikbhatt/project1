@@ -51,8 +51,22 @@ This command compiles your code, runs tests (if enabled), and creates the execut
 - Environment variables (DEVELOPER_AGE, etc.): Not required unless your build process or tests need them.
 - Program arguments (--developer.dream.country=USA, etc.): Not required because packaging doesn't normally start your application with those runtime arguments.  
 
-In Java, you use:  <span style="background-color: yellow;"><b>mvn clean package</b></span>  
-In React, you use: <span style="background-color: yellow;"><b>npm run build</b></span>  
+In Java, you use:  
+<span style="background-color: yellow;"><b>mvn clean package</b></span>  
+
+In React, you use:  
+
+1) For local development, you can run:  
+<span style="background-color: yellow;"><b>cd frontend</b></span>  
+<span style="background-color: yellow;"><b>npm install</b></span>  → Installs dependencies listed in package.json and updates package-lock.json if needed.    
+<span style="background-color: yellow;"><b>npm run build</b></span> → Runs the build script defined in frontend/package.json.  
+
+2) For your Jenkins build, use:  
+<span style="background-color: yellow;"><b>cd frontend</b></span>  
+<span style="background-color: yellow;"><b>npm ci</b></span>  → Installs dependencies using package-lock.json without updating the lockfile. Ideal for Jenkins CI builds.  
+<span style="background-color: yellow;"><b>npm run build</b></span> → Runs the build script defined in frontend/package.json.  
+
+Why use npm ci in Jenkins? It installs the exact dependency versions recorded in your lockfile, helping make builds consistent and repeatable.  
 
 ## Run the packaged application/deployable artifact from the command line after packaging
 <b>DEVELOPER_AGE="23" DEVELOPER_GENDER="male" java -Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat" -jar target/project1-0.0.1-SNAPSHOT.jar --developer.mother.tongue=tulu --developer.dream.country=USA</b>
