@@ -12,14 +12,15 @@ public class DisplayProperties
      */
     public static void displayVmOptionsOrJvmOptionsOrSystemProperties()
     {
-        System.out.println("Developer Name: " + System.getProperty("developer.name"));
-        System.out.println("Father Name: " + System.getProperty("developer.father.name"));
-        System.out.println("Mother Name: " + System.getProperty("developer.mother.name"));
-        System.out.println("Sister Name: " + System.getProperty("developer.sister.name"));
+        System.out.println("Developer Name: " + System.getProperty("developer.name", "Not provided"));
+        System.out.println("Father Name: " + System.getProperty("developer.father.name", "Not provided"));
+        System.out.println("Mother Name: " + System.getProperty("developer.mother.name", "Not provided"));
+        System.out.println("Sister Name: " + System.getProperty("developer.sister.name", "Not provided"));
 
-        System.out.println(System.getProperty("user.name"));
-        System.out.println(System.getProperty("user.home"));
-        System.out.println(System.getProperty("user.dir"));
+        // In built system properties
+        System.out.println(System.getProperty("user.name", "Not provided"));
+        System.out.println(System.getProperty("user.home", "Not provided"));
+        System.out.println(System.getProperty("user.dir", "Not provided"));
     }
 
     /**
@@ -29,11 +30,12 @@ public class DisplayProperties
      */
     public static void displayEnvironmentVariables()
     {
-        System.out.println("Developer Age: " + System.getenv("DEVELOPER_AGE"));
-        System.out.println("Developer Gender: " + System.getenv("DEVELOPER_GENDER"));
+        System.out.println("Developer Age: " + System.getenv().getOrDefault("DEVELOPER_AGE", "Not provided"));
+        System.out.println("Developer Gender: " + System.getenv().getOrDefault("DEVELOPER_GENDER", "Not provided"));
 
-        System.out.println("USER: " + System.getenv("USER"));
-        System.out.println("HOME: " + System.getenv("HOME"));
-        System.out.println("Current Directory: " + System.getenv("PWD"));
+        // In built environment variables
+        System.out.println("USER: " + System.getenv().getOrDefault("USER", "Not provided"));
+        System.out.println("HOME: " + System.getenv().getOrDefault("HOME", "Not provided"));
+        System.out.println("Current Directory: " + System.getenv().getOrDefault("PWD", "Not provided"));
     }
 }
