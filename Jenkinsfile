@@ -120,8 +120,8 @@ pipeline
     triggers // When should this pipeline run automatically?
     {
         githubPush()	// Runs instantly when GitHub sends a push webhook. Needs the GitHub plugin.
-        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')	// Runs on GitLab push or merge request events. Needs the GitLab plugin.
-        bitbucketPush()	// Runs on a Bitbucket push webhook. Needs the Bitbucket plugin.
+        // gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')	// Runs on GitLab push or merge request events. Needs the GitLab plugin.
+        // bitbucketPush()	// Runs on a Bitbucket push webhook. Needs the Bitbucket plugin.
         issueCommentTrigger('.*test this please.*')	// Runs when someone writes a matching comment on a pull request. Needs the GitHub Pull Request Comment Trigger plugin.
         pollSCM('H/5 * * * *') // Poll the Git repository every 5 minutes for changes. If there are changes, run the pipeline.
         // cron('@daily'), cron('@hourly'), cron('@midnight') Between midnight and 3 AM, @yearly / @annually
