@@ -406,7 +406,7 @@ pipeline
                    '''
             }
         }
-
+    }
     post
     {
         success
