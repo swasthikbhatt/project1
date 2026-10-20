@@ -208,6 +208,8 @@ pipeline
                     // Jenkins bundles the matching files and stores them temporarily under the name backend-jar, for use later in the same pipeline run. stash does not create the JAR. Maven creates it. stash saves a copy of the file for later use.
                     // Where does Jenkins store the stashed file? You don't need to specify a folder or path for the stash itself. Conceptually, think of Jenkins as keeping a temporary package.
                     stash name: 'backend-jar', includes: 'target/*.jar'   // save the jar
+                    stash name: 'frontend-files', includes: 'frontend/**'
+                    stash name: 'docker-files', includes: 'Dockerfile'
                 }
             }
         }
@@ -283,6 +285,8 @@ pipeline
             {
                 // Restore the Spring Boot JAR from the Build Backend stage
                 unstash 'backend-jar'
+                unstash 'frontend-files'
+                unstash 'docker-files'
 
                 // If the JAR is already in the project folder, you don't need to restore it again — provided both stages use the same workspace and the file is still there.
                 // Different agents or workspaces Suppose Jenkins builds your backend on Machine A and builds the Docker image on Machine B. Without unstash, Machine B might not have the JAR, so the Docker build could fail.
@@ -397,6 +401,8 @@ pipeline
             {
                 echo "Deploying to ${params.ENV}"
                 echo "Deploying ${IMAGE}:${TAG} to ${TARGET}"
+
+                // docker run -d --name project1_container -p 9090:8081 $IMAGE:$TAG Docker starts a container and executes: java -jar app.jar
                 sh '''
                     # Remove the previous container.
                     # If it does not exist, continue without failing.
@@ -404,9 +410,9 @@ pipeline
 
                     # Create and start a container in the background.
                     # --name sets the container name.
-                    # -p maps host port 8080 to container port 8080.
+                    # -p maps host port 8081 to container port 8081.
                     # $IMAGE:$TAG specifies the Docker image and tag.
-                    docker run -d --name project1_container -p 8080:8080 $IMAGE:$TAG
+                    docker run -d --name project1_container -p 9090:8081 $IMAGE:$TAG
                 '''
 
 
