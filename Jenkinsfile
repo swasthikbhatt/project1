@@ -348,10 +348,9 @@ pipeline
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DH_USER_PROJECT1', passwordVariable: 'DH_PASS_PROJECT1')])
                 {
                     sh '''
-                        echo "$DH_PASS_PROJECT1"
                         echo "$DH_PASS_PROJECT1" | docker login -u "$DH_USER_PROJECT1" --password-stdin
                         docker push "$FULL_IMAGE_NAME"
-                        docker push $IMAGE:latest
+                        docker push "$IMAGE:latest"
                     '''
                 }
            }
