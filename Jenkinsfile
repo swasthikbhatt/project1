@@ -74,8 +74,8 @@ pipeline
 
        // booleanParam: When to use it: for yes/no switches, such as run tests, push the image, send a notification, or do a clean build. Why: it lets the user turn a stage on or off without editing the Jenkinsfile. For example, skip tests for a quick hotfix, or deploy only when asked.
        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Untick to skip tests')
-       booleanParam(name: 'PUSH_IMAGE', defaultValue: false, description: 'Push the image to Docker Hub')
-       booleanParam(name: 'DEPLOY',     defaultValue: false, description: 'Enable deployment after Docker Push, Run the container after the build')
+       booleanParam(name: 'PUSH_IMAGE', defaultValue: true, description: 'Push the image to Docker Hub')
+       booleanParam(name: 'DEPLOY',     defaultValue: true, description: 'Enable deployment after Docker Push, Run the container after the build')
 
        // string: When to use it: for text inputs, such as a version number or a URL. Why: it allows the user to provide custom values.
        string(name: 'VERSION', defaultValue: '1.0', description: 'Release version to deploy')
