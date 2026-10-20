@@ -134,6 +134,11 @@ pipeline
             steps
             {
                 checkout scm // A Jenkins Pipeline step that retrieves source code from a configured SCM. Refers to the job's configured source-control settings, including your Git repository and branch.
+
+                env.GITHUB_URL = sh(script: 'git config --get remote.origin.url', returnStdout: true).trim()
+                env.COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                echo "GitHub URL: ${env.GITHUB_URL}"
+                echo "Commit ID: ${env.COMMIT_ID}"
             }
         }
 
@@ -305,8 +310,12 @@ pipeline
                     swasthik/myapp   latest    abc123def456
                 */
                 sh 'docker build -t $FULL_IMAGE_NAME -t $IMAGE:latest .'
-                sh 'docker save -o $FULL_IMAGE_NAME.tar $FULL_IMAGE_NAME'
-                sh 'docker save -o $IMAGE:latest.tar $FULL_IMAGE_NAME'
+
+                sh 'docker save -o project1-image.tar $FULL_IMAGE_NAME'
+                sh 'docker save -o project1-latest-image.tar $IMAGE:latest'
+
+                // Save the TAR file under this Jenkins build's Artifacts
+                archiveArtifacts artifacts: 'project1-image.tar', fingerprint: true
             }
         }
 
@@ -440,7 +449,7 @@ pipeline
             // Basic E-mail Notification
             mail(
                     to: params.EMAIL,
-                    subject: "${env.JOB_NAME} #${env.BUILD_NUMBER} ${currentBuild.currentResult}",
+                    subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                     body: """Pipeline execution finished.
 
             BUILD DETAILS
@@ -458,15 +467,15 @@ pipeline
 
             SOURCE CODE
             -----------
-            GitHub URL   : ${env.GIT_URL ?: 'Check Jenkins SCM configuration'}
-            Commit ID    : ${env.GIT_COMMIT ?: 'Not available'}
+            GitHub URL   : ${env.GITHUB_URL}
+            Commit ID    : ${env.COMMIT_ID}
 
             Please check Jenkins for details.""")
 
             // Editable Email Notification
             emailext(
                         to: params.EMAIL,
-                        subject: "${env.JOB_NAME} #${env.BUILD_NUMBER} ${currentBuild.currentResult}",
+                        subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                         body: """Hello,
 
             Your Jenkins pipeline execution has finished.
@@ -486,8 +495,8 @@ pipeline
 
             SOURCE CODE
             -----------
-            GitHub URL   : ${env.GIT_URL ?: 'Check Jenkins SCM configuration'}
-            Commit ID    : ${env.GIT_COMMIT ?: 'Not available'}
+            GitHub URL   : ${env.GITHUB_URL}
+            Commit ID    : ${env.COMMIT_ID}
 
             Please check Jenkins for details.""")
 
