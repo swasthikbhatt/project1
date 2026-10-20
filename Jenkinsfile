@@ -185,7 +185,6 @@ pipeline
         */
         stage('Build Backend')
         {
-            agent any
             tools
             {
                 jdk   'JDK-25'
