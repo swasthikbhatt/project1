@@ -91,7 +91,7 @@ pipeline
        TAG    = "${env.BUILD_NUMBER}"             // changes each build
        TARGET = "${params.ENV}"                  // copied from the user's choice, we are taking the value from the ENV parameter defined in the parameters block
        FULL_IMAGE_NAME   = "${IMAGE}:${TAG}"
-       DEV_OPTS = '-Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat"'
+       DEV_OPTS = "'-Ddeveloper.name=swasthik bhat' '-Ddeveloper.father.name=suresh bhat' '-Ddeveloper.mother.name=shantha bhat' '-Ddeveloper.sister.name=swathi bhat'"
        PATH = "/usr/local/bin:${env.PATH}" // /usr/local/bin' — the directory where your Mac's docker command is located. PATH+DOCKER — Jenkins syntax for adding an extra directory to the existing PATH. DOCKER is just a label; you can use another label.
     }
 
@@ -303,7 +303,7 @@ pipeline
                 */
                 sh 'docker build -t $FULL_IMAGE_NAME -t $IMAGE:latest .'
                 sh 'docker save -o $FULL_IMAGE_NAME.tar $FULL_IMAGE_NAME'
-                 sh 'docker save -o $IMAGE:latest.tar $FULL_IMAGE_NAME'
+                sh 'docker save -o $IMAGE:latest.tar $FULL_IMAGE_NAME'
             }
         }
 
