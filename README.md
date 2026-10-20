@@ -90,3 +90,27 @@ Maven home: /opt/homebrew/Cellar/maven/3.10.0/libexec
 Java version: 25.0.4.1, vendor: Homebrew, runtime: /opt/homebrew/Cellar/openjdk@25/25.0.4.1/libexec/openjdk.jdk/Contents/Home  
 Default locale: en_US, platform encoding: UTF-8, time zone: Asia/Kolkata  
 OS name: "Mac OS X", version: "27.0.1", arch: "aarch64", family: "Mac"
+
+## How to run the application after creating and pushing the image  
+### To check all images locally:  
+(base) swasthikbhat@Swasthiks-MacBook-Air ~ % docker images  
+IMAGE                     ID             DISK USAGE   CONTENT SIZE   EXTRA   
+swasthik18/myapp:23       c4e26d82a006        530MB          133MB        
+swasthik18/myapp:latest   c4e26d82a006        530MB          133MB  
+### Push the image to the Docker Hub with username=swasthik18 and token/password=check google keep:  
+(base) swasthikbhat@Swasthiks-MacBook-Air ~ % docker push swasthik18/myapp:23  
+The push refers to repository [docker.io/swasthik18/myapp]  
+e8eae6888566: Layer already exists  
+aad58af6172b: Already exists  
+23: digest: sha256:c4e26d82a006937d211173c76b2cb208da77afd5fa82d518c84d4b5068efb125 size: 856  
+### Pull the image from the Docker Hub with username=swasthik18 and token/password=check google keep:  
+24: Pulling from swasthik18/myapp  
+Digest: sha256:28d88a24b0f2c7d634fbe38cc112b20397993d3e10d5d5c37b0cb615ca0a6fdc  
+Status: Image is up to date for swasthik18/myapp:24  
+docker.io/swasthik18/myapp:24  
+### Run the application inside the container which got pulled from the Docker Hub
+(base) swasthikbhat@Swasthiks-MacBook-Air ~ % docker run -d --name project1_container -p 8081:8081 swasthik18/myapp:24  
+### Access backend  
+http://localhost:8081/settings   
+### Access backend  
+http://localhost:5143/settings  
