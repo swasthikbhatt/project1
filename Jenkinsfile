@@ -92,7 +92,7 @@ pipeline
        TARGET = "${params.ENV}"                  // copied from the user's choice, we are taking the value from the ENV parameter defined in the parameters block
        FULL_IMAGE_NAME   = "${IMAGE}:${TAG}"
        DEV_OPTS = '-Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat"'
-       PATH+MY_DOCKER = '/usr/local/bin' // /usr/local/bin' — the directory where your Mac's docker command is located. PATH+DOCKER — Jenkins syntax for adding an extra directory to the existing PATH. DOCKER is just a label; you can use another label.
+       PATH = "/usr/local/bin:${env.PATH}" // /usr/local/bin' — the directory where your Mac's docker command is located. PATH+DOCKER — Jenkins syntax for adding an extra directory to the existing PATH. DOCKER is just a label; you can use another label.
     }
 
     options // How should this pipeline behave?
