@@ -145,7 +145,7 @@ pipeline
                 sh 'mvn -version'
                 sh 'node --version'
                 sh 'npm -version'
-                sh 'git -version'
+                sh 'git --version'
                 sh 'docker --version'
             }
         }
