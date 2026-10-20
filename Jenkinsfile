@@ -84,10 +84,11 @@ pipeline
 
     /*  Use environment when the value should be the same every time and parameters when it should be chosen each time.
         Block order in the file doesn’t matter. You can write environment above parameters, or below it. Jenkins accepts both (agent and stages are the required sections, and the rest can come in any order).
+        swasthik18 --> Dockerhub username
     */
     environment
     {
-       IMAGE  = 'swasthik/myapp'                  // fixed
+       IMAGE  = 'swasthik18/myapp'                  // fixed
        TAG    = "${env.BUILD_NUMBER}"             // changes each build
        TARGET = "${params.ENV}"                  // copied from the user's choice, we are taking the value from the ENV parameter defined in the parameters block
        FULL_IMAGE_NAME   = "${IMAGE}:${TAG}"
