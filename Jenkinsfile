@@ -92,6 +92,7 @@ pipeline
        TARGET = "${params.ENV}"                  // copied from the user's choice, we are taking the value from the ENV parameter defined in the parameters block
        FULL_IMAGE_NAME   = "${IMAGE}:${TAG}"
        DEV_OPTS = '-Ddeveloper.name="swasthik bhat" -Ddeveloper.father.name="suresh bhat" -Ddeveloper.mother.name="shantha bhat" -Ddeveloper.sister.name="swathi bhat"'
+       PATH+MY_DOCKER = '/usr/local/bin' // /usr/local/bin' — the directory where your Mac's docker command is located. PATH+DOCKER — Jenkins syntax for adding an extra directory to the existing PATH. DOCKER is just a label; you can use another label.
     }
 
     options // How should this pipeline behave?
@@ -261,6 +262,19 @@ pipeline
             steps
             {
                 archiveArtifacts artifacts: 'target/*.jar, frontend/dist/**', fingerprint: true, allowEmptyArchive: true // Saves the jar and frontend/dist in Jenkins, so you can download them. Vite normally builds to frontend/dist, so check that folder name in your project.
+            }
+        }
+
+        stage('Check Docker')
+        {
+            steps
+            {
+                sh '''
+                    echo "$PATH"
+                    which docker
+                    docker --version
+                    docker info
+                '''
             }
         }
 
