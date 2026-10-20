@@ -135,10 +135,14 @@ pipeline
             {
                 checkout scm // A Jenkins Pipeline step that retrieves source code from a configured SCM. Refers to the job's configured source-control settings, including your Git repository and branch.
 
-                env.GITHUB_URL = sh(script: 'git config --get remote.origin.url', returnStdout: true).trim()
-                env.COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-                echo "GitHub URL: ${env.GITHUB_URL}"
-                echo "Commit ID: ${env.COMMIT_ID}"
+                // env.GITHUB_URL = ... and env.COMMIT_ID = ... are Groovy assignments, Put them inside the script{} block.
+                script
+                {
+                    env.GITHUB_URL = sh(script: 'git config --get remote.origin.url', returnStdout: true).trim()
+                    env.COMMIT_ID = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                    echo "GitHub URL: ${env.GITHUB_URL}"
+                    echo "Commit ID: ${env.COMMIT_ID}"
+                }
             }
         }
 
