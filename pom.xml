@@ -28,6 +28,14 @@
 	<properties>
 		<java.version>25</java.version>
 		<developer.mobile>iphone 16 pro</developer.mobile>
+<!--	This is the unique identifier for your project in SonarQube. Think of it like a project ID in a database-->
+<!--	- sonar.projectKey — the property SonarQube reads.-->
+<!--	- myapp — the identifier you've chosen for your application-->
+		<sonar.projectKey>myapp</sonar.projectKey>
+<!--		This tells SonarQube where JaCoCo's XML coverage report is located. JaCoCo generates the report target/site/jacoco/jacoco.xml-->
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${project.build.directory}/site/jacoco/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,6 +53,25 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.15</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

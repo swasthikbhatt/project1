@@ -252,9 +252,17 @@ pipeline
                 {
                     gv.testApp()
                 }
+                /*
+                If your JaCoCo report goal is bound to Maven's verify phase, running only mvn test won't execute that report goal.
+                Replace the Maven test command in your Test stage with mvn clean verify
                 sh '''
                             set -eu
                             mvn "-Ddeveloper.name=swasthik bhat" "-Ddeveloper.father.name=suresh bhat" "-Ddeveloper.mother.name=shantha bhat" "-Ddeveloper.sister.name=swathi bhat" test
+                   '''
+                */
+                sh '''
+                    set -eu
+                    mvn "-Ddeveloper.name=swasthik bhat" "-Ddeveloper.father.name=suresh bhat" "-Ddeveloper.mother.name=shantha bhat" "-Ddeveloper.sister.name=swathi bhat" clean verify
                    '''
             }
             post
@@ -263,6 +271,27 @@ pipeline
                 always
                 {
                     junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml' // after the stage finishes, whatever the outcome, Jenkins reads the Maven test report files and publishes them as a test report, and it doesn’t raise an error if there are no report files.
+                }
+            }
+        }
+
+        stage('Verify Coverage Report')
+        {
+            steps
+            {
+                sh 'ls -lh target/site/jacoco/jacoco.xml'
+            }
+        }
+
+        stage('SonarQube Analysis')
+        {
+            steps
+            {
+                withSonarQubeEnv('MySonarQube')
+                {
+                    sh '''
+                        mvn sonar:sonar -Dsonar.projectKey=myapp -Dsonar.host.url=http://localhost:9000
+                    '''
                 }
             }
         }
