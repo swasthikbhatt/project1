@@ -283,6 +283,10 @@ pipeline
             }
         }
 
+        /*  myapp is your SonarQube project key — a unique identifier SonarQube uses to recognize your project.
+            In your setup, you have this in your pom.xml:
+            <sonar.projectKey>myapp</sonar.projectKey>
+        */
         stage('SonarQube Analysis')
         {
             steps
@@ -290,7 +294,7 @@ pipeline
                 withSonarQubeEnv('MySonarQube')
                 {
                     sh '''
-                        mvn sonar:sonar -Dsonar.projectKey=myapp -Dsonar.host.url=http://localhost:9000
+                        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=myapp
                     '''
                 }
             }
