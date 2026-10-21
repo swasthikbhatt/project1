@@ -300,11 +300,12 @@ pipeline
             }
         }
 
+        // Change allowEmptyArchive: true to false in the Archive stage if you want a missing artifact to fail the stage rather than pass silently. Make sure the expected files always exist first.
         stage('Archive')
         {
             steps
             {
-                archiveArtifacts artifacts: 'target/*.jar, frontend/dist/**', fingerprint: true, allowEmptyArchive: true // Saves the jar and frontend/dist in Jenkins, so you can download them. Vite normally builds to frontend/dist, so check that folder name in your project.
+                archiveArtifacts artifacts: 'target/*.jar, frontend/dist/**, target/site/jacoco/**', fingerprint: true, allowEmptyArchive: true // Saves the jar and frontend/dist in Jenkins, so you can download them. Vite normally builds to frontend/dist, so check that folder name in your project.
             }
         }
 
@@ -471,6 +472,7 @@ pipeline
             }
         }
     }
+
     post
     {
         success
@@ -507,6 +509,10 @@ pipeline
             GitHub URL   : ${env.GITHUB_URL}
             Commit ID    : ${env.COMMIT_ID}
 
+            SONARQUBE REPORT
+            -----------
+            Project Dashboard : http://localhost:9000/dashboard?id=myapp
+
             Please check Jenkins for details.""")
 
             // Editable Email Notification
@@ -534,6 +540,10 @@ pipeline
             -----------
             GitHub URL   : ${env.GITHUB_URL}
             Commit ID    : ${env.COMMIT_ID}
+
+            SONARQUBE REPORT
+            -----------
+            Project Dashboard : http://localhost:9000/dashboard?id=myapp
 
             Please check Jenkins for details.""")
 
