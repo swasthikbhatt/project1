@@ -548,9 +548,26 @@ pipeline
             Please check Jenkins for details.""")
 
             // Record completion time
-            sh '''
-                    echo "BUILD_FINISHED_AT=$(date '+%Y-%m-%d %H:%M:%S %Z')" >> build-times.properties
-               '''
+            // >> — appends, This adds a new line to the end of the existing file, preserving previous entries
+            // > — overwrites, This replaces the existing file's content.
+            // sh '''echo "BUILD_FINISHED_AT=$(date '+%Y-%m-%d %H:%M:%S %Z')" >> build-times.properties'''
+
+            script
+            {
+                // Store the current date and time in Indian Standard Time, def finishTime = ... calculates and stores the formatted current time.
+                def finishTime = new Date().format('yyyy-MM-dd HH:mm:ss z', TimeZone.getTimeZone('Asia/Kolkata'))
+
+                // Calculate elapsed build time in whole seconds, It is a variable that stores how many seconds have elapsed since the Jenkins build started. def durationSeconds = 425, This means the elapsed time is 425 seconds, or 7 minutes and 5 seconds.
+                def durationSeconds = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000).toInteger()
+
+                // Write build information to the properties file
+                // writeFile file: 'build-times.properties' writes the content and overwrites the existing file if it already exists. It does not append.
+                writeFile file: 'build-times.properties', text: """BUILD_NUMBER=${env.BUILD_NUMBER}
+                                                                   BUILD_STATUS=${currentBuild.currentResult}
+                                                                   BUILD_FINISHED_AT=${finishTime}
+                                                                   BUILD_DURATION_SECONDS=${durationSeconds}
+                                                                """
+            }
 
             // Save artifacts in Jenkins
             archiveArtifacts(artifacts: 'target/*.jar,frontend/dist/**,build-times.properties', allowEmptyArchive: true,fingerprint: true)
