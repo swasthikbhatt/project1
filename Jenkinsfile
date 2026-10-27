@@ -562,11 +562,12 @@ pipeline
 
                 // Write build information to the properties file
                 // writeFile file: 'build-times.properties' writes the content and overwrites the existing file if it already exists. It does not append.
-                writeFile file: 'build-times.properties', text: """BUILD_NUMBER=${env.BUILD_NUMBER}
-                                                                   BUILD_STATUS=${currentBuild.currentResult}
-                                                                   BUILD_FINISHED_AT=${finishTime}
-                                                                   BUILD_DURATION_SECONDS=${durationSeconds}
-                                                                """
+                writeFile file: 'build-times.properties',
+                        text: """BUILD_NUMBER=${env.BUILD_NUMBER}
+                BUILD_STATUS=${currentBuild.currentResult}
+                BUILD_FINISHED_AT=${finishTime}
+                BUILD_DURATION_SECONDS=${durationSeconds}
+                """
             }
 
             // Save artifacts in Jenkins
