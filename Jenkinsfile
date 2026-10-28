@@ -381,6 +381,14 @@ pipeline
             when { expression { params.PUSH_IMAGE } }
             steps
             {
+                /*
+                    withCredentials does NOT clone anything. It only fetches a username and password and makes them available temporarily. That's its entire job.
+                    Think of it like a locker
+                    Imagine Jenkins has a locked box with your GitHub login inside it.
+                    withCredentials = "Open the locker, take out the username and password, hold them in my hand while I'm inside this room. When I leave the room, put them back and lock it."
+                
+                    That's it. It does not connect to GitHub. It does not clone. It just hands you the username and password.
+                */
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DH_USER_PROJECT1', passwordVariable: 'DH_PASS_PROJECT1')])
                 {
                     sh '''
