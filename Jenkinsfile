@@ -319,7 +319,7 @@ pipeline
                     mvn deploy -DskipTests
                    '''
             }
-    }
+        }
 
         // Change allowEmptyArchive: true to false in the Archive stage if you want a missing artifact to fail the stage rather than pass silently. Make sure the expected files always exist first.
         stage('Archive')
