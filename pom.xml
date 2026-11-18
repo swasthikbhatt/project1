@@ -37,10 +37,12 @@
 	</properties>
 	<!-- To store artifacts in nexus repository -->
 	<distributionManagement>
+		<!-- To store release builds or artifacts. -->
 		<repository>
 			<id>nexus-releases</id>
 			<url>http://localhost:8082/repository/maven-releases/</url>
 		</repository>
+		<!-- To store development builds or artifacts. -->
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
 			<url>http://localhost:8082/repository/maven-snapshots/</url>
@@ -59,16 +61,22 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<!-- Spring Boot Maven Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- JaCoCo Maven Plugin : JaCoCo stands for Java Code Coverage. Used to measures how much of your Java code is executed by your test cases. -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.15</version>
 				<executions>
 					<execution>
+						<!-- You can explicitly specify <phase>initialize</phase>, but not required, it is optional. It will not cause any issue because initialize is the default lifecycle phase for JaCoCo's prepare-agent goal. -->
+						<phase>
+							initialize
+						</phase>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
@@ -81,6 +89,19 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- If you want Dependency Report i.e under target/site/dependencies.html add this plugin. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.9.0</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 		</plugins>
 	</build>

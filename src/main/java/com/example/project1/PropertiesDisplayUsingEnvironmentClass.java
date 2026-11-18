@@ -1,5 +1,7 @@
 package com.example.project1;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +12,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropertiesDisplayUsingEnvironmentClass
 {
+    // Environment is a Spring-provided abstraction that gives you access to application properties, environment variables, and other property sources. You're not creating the Environment object yourself; Spring provides it for injection.
     private final Environment environment;
 
-    // Constructor injection
+    @PostConstruct
+    public void initializePropertiesDisplayUsingEnvironmentClassBeanAndInjectDependencies()
+    {
+        System.out.println("PropertiesDisplayUsingEnvironmentClass bean initialized(means Spring has completed the dependency injection and initialization callbacks, including @PostConstruct) and dependency Environment has been injected to created PropertiesDisplayUsingEnvironmentClass bean.");
+    }
+
+    @PreDestroy
+    public void cleanupBeforeDestroyingPropertiesDisplayUsingEnvironmentClassBean()
+    {
+        System.out.println("PropertiesDisplayUsingEnvironmentClassBean got destroyed.");
+    }
+
+    /* Constructor injection
+       Dependency Injection: Instead of creating dependent objects yourself, Spring provides them to your class.
+       The Environment object is a dependency of your class PropertiesDisplayUsingEnvironmentClass. Dependency means: An object that your class needs to perform its work.
+
+       Imagine you're creating the object manually.
+       You would need something like:
+       Environment environment = // obtain an Environment object
+       PropertiesDisplayUsingEnvironmentClass obj = new PropertiesDisplayUsingEnvironmentClass(environment);
+
+       Notice something?
+       When creating the object, you're passing the Environment object as an argument to the constructor.
+       That's exactly what constructor injection means.
+       The dependency is supplied through the constructor argument.
+     */
     public PropertiesDisplayUsingEnvironmentClass(Environment environment)
     {
         this.environment = environment;
@@ -39,7 +67,7 @@ public class PropertiesDisplayUsingEnvironmentClass
         String programArg2 = environment.getProperty("my.program.args[1]", "Not provided");
 
         // Other application properties
-        String applicationName = environment.getProperty("spring.application.name", "Not provided");
+        String applicationName = environment.getProperty("spring.application.name", "project1");
         String serverPort = environment.getProperty("server.port", "8080");
 
         System.out.println("\n========== DEVELOPER DETAILS USING ENVIRONMENT CLASS ==========");
