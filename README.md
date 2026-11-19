@@ -1,5 +1,11 @@
 # 𝐩𝐫𝐨𝐣𝐞𝐜𝐭𝟏
 
+## Maven profiles are enabled in this project, default mode is dev i.e. development  
+
+- mvn clean package -Pdev  → this is default, application will run in development mode  
+- mvn clean package -Ptest → application will run in testing mode  
+- mvn clean package -Pprod → application will run in production mode  
+
 ## How to run the application from IntelliJ IDEA
 
 - VM Options = JVM Options in IntelliJ IDEA. VM stands for Virtual Machine, specifically the Java Virtual Machine (JVM). 

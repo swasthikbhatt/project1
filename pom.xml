@@ -26,8 +26,12 @@
 		<url/>
 	</scm>
 	<properties>
+		<!-- This defines a Maven property that stores the Java version. Think of it as a variable in Java. For example in java : int javaVersion = 25;  Similarly, in Maven: <java.version>25</java.version> You are storing the value 25 in a property called java.version. Important: This property alone does not tell Maven to compile using Java 25. It is just a variable until another configuration uses it. -->
 		<java.version>25</java.version>
 		<developer.mobile>iphone 16 pro</developer.mobile>
+		<!-- It tells the Maven Compiler Plugin: "Compile my Java application targeting Java 25." Maven invokes the Java compiler with Java 25 as the release target. The compiler generates .class files compatible with Java 25. -->
+		<!-- <maven.compiler.release>17</maven.compiler.release> Now Maven targets Java 17. If you use a Java feature introduced after Java 17, the compiler will reject it.  Similarly, using a Java API introduced after Java 17 will also be rejected. Important: You can still run Maven using JDK 25. The release setting controls the compatibility target, not the JDK installation Maven runs on. -->
+		<maven.compiler.release>${java.version}</maven.compiler.release>
 		<!-- This is the unique identifier for your project in SonarQube. Think of it like a project ID in a database. -->
 		<!-- sonar.projectKey: the property SonarQube reads. -->
 		<!-- myapp: the identifier you've chosen for your application. -->
@@ -35,6 +39,40 @@
 		<!-- This tells SonarQube where JaCoCo's XML coverage report is located. JaCoCo generates the report target/site/jacoco/jacoco.xml -->
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
+	<!-- Maven Build Profiles -->
+	<profiles>
+		<!-- DEVELOPMENT PROFILE -->
+		<profile>
+			<id>dev</id>
+			<!-- Default profile: This makes dev the default profile.-->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<environment>DEVELOPMENT</environment>
+				<database.url>jdbc:mysql://localhost:3306/employee_dev</database.url>
+				<server.port>8081</server.port>
+			</properties>
+		</profile>
+		<!-- TESTING PROFILE -->
+		<profile>
+			<id>test</id>
+			<properties>
+				<environment>TESTING</environment>
+				<database.url>jdbc:mysql://localhost:3306/employee_test</database.url>
+				<server.port>8082</server.port>
+			</properties>
+		</profile>
+		<!-- PRODUCTION PROFILE -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<environment>PRODUCTION</environment>
+				<database.url>jdbc:mysql://localhost:3306/employee_prod</database.url>
+				<server.port>8080</server.port>
+			</properties>
+		</profile>
+	</profiles>
 	<!-- To store artifacts in nexus repository -->
 	<distributionManagement>
 		<!-- To store release builds or artifacts. -->
@@ -60,11 +98,27 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<!-- Resource filtering -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
-			<!-- Spring Boot Maven Plugin -->
+			<!-- Spring Boot Maven Plugin: Purpose: It helps you package and run your Spring Boot application. -->
+			<!-- When you run mvn clean package, Maven generates a JAR file. But a normal JAR might not contain everything needed to run your Spring Boot application independently. -->
+			<!-- The Spring Boot Maven Plugin helps create an executable JAR containing: Your application classes, Dependencies. Spring Boot loader. You can then run: java -jar target/project1-0.0.1-SNAPSHOT.jar-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Java compiler plugin: Purpose: It compiles your Java source code (.java) into bytecode (.class). It uses your configuration: <properties><java.version>25</java.version><maven.compiler.release>${java.version}</maven.compiler.release></properties>-->
+			<!-- This tells the compiler to target Java 25. What if you remove this plugin? Your project can still compile! Why? Because Maven has a default lifecycle that binds the compile phase to a compiler plugin. Also, Spring Boot's parent POM already manages the Maven Compiler Plugin. However, explicitly declaring the plugin lets you control its version and configuration. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.1</version>
 			</plugin>
 			<!-- JaCoCo Maven Plugin : JaCoCo stands for Java Code Coverage. Used to measures how much of your Java code is executed by your test cases. -->
 			<plugin>
@@ -90,8 +144,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- If you want Dependency Report i.e under target/site/dependencies.html add this plugin. -->
+		</plugins>
+	</build>
+
+	<!-- Maven Project Information Reports -->
+	<reporting>
+		<plugins>
 			<plugin>
+				<!-- If you want Dependency Report i.e under target/site/dependencies.html add this plugin. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.9.0</version>
@@ -104,5 +164,6 @@
 				</reportSets>
 			</plugin>
 		</plugins>
-	</build>
+	</reporting>
+
 </project>

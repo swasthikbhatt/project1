@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
+
 import java.util.Map;
 
 @SpringBootApplication
@@ -136,6 +138,19 @@ public class Project1Application
 			if (args.length > 0) System.out.println("Program Argument 1: " + args[0]);
 			if (args.length > 1) System.out.println("Program Argument 2: " + args[1]);
 			System.out.println("Fourth CommandLineRunner executed.");
+		};
+	}
+
+	@Bean
+	@Order(5)
+	CommandLineRunner fifthRunner(Environment env) {
+		return args ->
+		{
+			System.out.println("Fifth CommandLineRunner is executing...");
+			System.out.println("Environment: " + env.getProperty("app.environment"));
+			System.out.println("Database URL: " + env.getProperty("app.database.url"));
+			System.out.println("Server Port: " + env.getProperty("server.port"));
+			System.out.println("Fifth CommandLineRunner executed.");
 		};
 	}
 }
